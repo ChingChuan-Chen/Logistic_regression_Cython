@@ -33,7 +33,7 @@ class SpeedLogitReg(BaseEstimator, TransformerMixin):
         if self.init_coef is None:
             self.init_coef = np.zeros(X.shape[1], dtype=np.float64)
 
-        self._coef = speedLogisticRegression(X, y, weights, self.init_coef, self.tol, self.max_iter)
+        self.coefficients = speedLogisticRegression(X, y, weights, self.init_coef, self.tol, self.max_iter)
         self.fitted = True
         return self
 
@@ -42,7 +42,7 @@ class SpeedLogitReg(BaseEstimator, TransformerMixin):
             X = check_array(X, force_all_finite=True, ensure_2d=True, dtype=np.float64)
             if self.fit_intercept:
                 X = np.hstack((np.ones((X.shape[0], 1)), X))
-            return np.matmul(X, self._coef)
+            return np.matmul(X, self.coefficients)
         else:
             raise Exception('Model is not fitted yet.')
 
